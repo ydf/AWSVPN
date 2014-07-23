@@ -6,7 +6,7 @@ VPN_USER=wiwide
 VPN_PASSWORD=wiwide123
  
 # Those two variables will be found automatically
-PRIVATE_IP=`172.31.25.170`
+PRIVATE_IP=172.31.25.170
  
 #the following does not work in VPC
 #PUBLIC_IP=`wget -q -O - 'http://instance-data/latest/meta-data/public-ipv4'`
@@ -113,6 +113,6 @@ EOF
  
 service ipsec start
 service xl2tpd start
-chkconfig ipsec on
-chkconfig xl2tpd on
+#chkconfig ipsec on
+#chkconfig xl2tpd on
 
