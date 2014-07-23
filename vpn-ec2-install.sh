@@ -1,12 +1,12 @@
 #!/bin/sh
  
 # Please define your own values for those variables
-IPSEC_PSK=SharedSecret
-VPN_USER=username
-VPN_PASSWORD=password
+IPSEC_PSK=wiwide123
+VPN_USER=wiwide
+VPN_PASSWORD=wiwide123
  
 # Those two variables will be found automatically
-PRIVATE_IP=`wget -q -O - 'http://instance-data/latest/meta-data/local-ipv4'`
+PRIVATE_IP=`172.31.25.170`
  
 #the following does not work in VPC
 #PUBLIC_IP=`wget -q -O - 'http://instance-data/latest/meta-data/public-ipv4'`
@@ -15,7 +15,7 @@ PRIVATE_IP=`wget -q -O - 'http://instance-data/latest/meta-data/local-ipv4'`
 #
 PUBLIC_IP=`wget -q -O - 'checkip.amazonaws.com'`
  
-yum install -y --enablerepo=epel openswan xl2tpd
+#yum install -y --enablerepo=epel openswan xl2tpd
  
 cat > /etc/ipsec.conf <<EOF
 version 2.0
@@ -98,18 +98,18 @@ cat > /etc/ppp/chap-secrets <<EOF
 $VPN_USER l2tpd $VPN_PASSWORD *
 EOF
  
-iptables -t nat -A POSTROUTING -s 192.168.42.0/24 -o eth0 -j MASQUERADE
-echo 1 > /proc/sys/net/ipv4/ip_forward
+#iptables -t nat -A POSTROUTING -s 192.168.42.0/24 -o eth0 -j MASQUERADE
+#echo 1 > /proc/sys/net/ipv4/ip_forward
  
-iptables-save > /etc/iptables.rules
+#iptables-save > /etc/iptables.rules
 
-mkdir -p /etc/network/if-pre-up.d
-cat > /etc/network/if-pre-up.d/iptablesload <<EOF
+#mkdir -p /etc/network/if-pre-up.d
+#cat > /etc/network/if-pre-up.d/iptablesload <<EOF
 #!/bin/sh
-iptables-restore < /etc/iptables.rules
-echo 1 > /proc/sys/net/ipv4/ip_forward
-exit 0
-EOF
+#iptables-restore < /etc/iptables.rules
+#echo 1 > /proc/sys/net/ipv4/ip_forward
+#exit 0
+#EOF
  
 service ipsec start
 service xl2tpd start
